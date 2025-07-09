@@ -1644,7 +1644,14 @@ export class BaileysStartupService extends ChannelStartupService {
         }
 
         if (events['presence.update']) {
-          const payload = events['presence.update'];
+          const payload = events['presence.update'];                    
+          if(settings?.alwaysOnline){
+            await this.setPresence({ presence: 'available' });
+            // sock.sendPresenceUpdate('available')
+          }else{
+            await this.setPresence({ presence: 'unavailable' });
+            // sock.sendPresenceUpdate('unavailable')
+          }
 
           if (settings?.groupsIgnore && payload.id.includes('@g.us')) {
             return;
