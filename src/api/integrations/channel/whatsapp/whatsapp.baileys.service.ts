@@ -1983,7 +1983,7 @@ export class BaileysStartupService extends ChannelStartupService {
     options?: Options,
     isIntegration = false,
   ) {
-    const isWA = (await this.whatsappNumber({ numbers: [number] }))?.shift();
+    const isWA = (await this.whatsappNumber({ numbers: [this.validarNumero(number)] }))?.shift();
 
     if (!isWA.exists && !isJidGroup(isWA.jid) && !isWA.jid.includes('@broadcast')) {
       throw new BadRequestException(isWA);
@@ -2084,7 +2084,7 @@ export class BaileysStartupService extends ChannelStartupService {
           // group?.participants,
         );
       } else {
-        messageSent = await this.sendMessage(this.validarNumero(sender), message, mentions, linkPreview, quoted);
+        messageSent = await this.sendMessage(sender, message, mentions, linkPreview, quoted);
       }
 
       if (Long.isLong(messageSent?.messageTimestamp)) {
