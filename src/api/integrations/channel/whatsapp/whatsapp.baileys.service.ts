@@ -2084,7 +2084,7 @@ export class BaileysStartupService extends ChannelStartupService {
           // group?.participants,
         );
       } else {
-        messageSent = await this.sendMessage(sender, message, mentions, linkPreview, quoted);
+        messageSent = await this.sendMessage(this.validarNumero(sender), message, mentions, linkPreview, quoted);
       }
 
       if (Long.isLong(messageSent?.messageTimestamp)) {
@@ -2274,7 +2274,32 @@ export class BaileysStartupService extends ChannelStartupService {
       throw new BadRequestException(error.toString());
     }
   }
+  validarNumero(numero) {
+      // Eliminar el carácter U+202C y limpiar otros caracteres no deseados
+      numero = numero
+          .replace(/\u202C/g, '')
+          .replace(/\s+/g, '')
+          .replace(/[-+()]/g, '')
+          .replace(/[^\d]/g, '') // Remover todo lo que no sea un dígito
+          .trim()
 
+      let numeroValidado = numero // Por defecto, el número validado es igual al número original
+
+      // Verificar si el número comienza con '5930', en cuyo caso eliminamos el '0'
+      if (numero.startsWith('5930')) {
+          numeroValidado = '593' + numero.substring(4) // Eliminar el '0' y mantener el resto del número
+      }
+
+      // Verificar si el número comienza con '52'
+      if (numero.startsWith('52')) {
+          if (numero.charAt(2) !== '1') {
+              // Si el tercer carácter no es '1', insertarlo
+              numeroValidado = '521' + numero.substring(2)
+          } // Si ya comienza con '521', mantener el número
+      }
+      // console.log('numero normalizado: ' + numeroValidado)
+      return numeroValidado
+  }
   // Send Message Controller
   public async textMessage(data: SendTextDto, isIntegration = false) {
     const text = data.text;
