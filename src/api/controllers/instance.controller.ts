@@ -295,7 +295,7 @@ export class InstanceController {
   public async connectToWhatsapp({ instanceName, number = null }: InstanceDto) {
     try {
       const instance = this.waMonitor.waInstances[instanceName];
-      const state = instance?.connectionStatus?.state;
+      const state = instance?.connectionStatus?.state ?? null;
 
       if (!state) {
         throw new BadRequestException('The "' + instanceName + '" instance does not exist');
