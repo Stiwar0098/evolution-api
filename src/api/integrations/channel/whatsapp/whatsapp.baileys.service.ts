@@ -568,7 +568,7 @@ export class BaileysStartupService extends ChannelStartupService {
     this.logger.info(`Group Ignore: ${this.localSettings.groupsIgnore}`);
 
     let options;
-    console.log(`Error connecting to WhatsApp:asdasd`, 'error');
+    console.log(`Error connecting to WhatsApp: 1`, 'error');
     if (this.localProxy?.enabled) {
       this.logger.info('Proxy enabled: ' + this.localProxy?.host);
 
@@ -602,7 +602,7 @@ export class BaileysStartupService extends ChannelStartupService {
         };
       }
     }
-
+    console.log(`Error connecting to WhatsApp: 2`, 'error');
     const socketConfig: UserFacingSocketConfig = {
       ...options,
       version,
@@ -660,17 +660,17 @@ export class BaileysStartupService extends ChannelStartupService {
         return message;
       },
     };
-
+    console.log(`Error connecting to WhatsApp: 3`, 'error');
     this.endSession = false;
 
     this.client = makeWASocket(socketConfig);
-
+    console.log(`Error connecting to WhatsApp: 4`, 'error');
     if (this.localSettings.wavoipToken && this.localSettings.wavoipToken.length > 0) {
       useVoiceCallsBaileys(this.localSettings.wavoipToken, this.client, this.connectionStatus.state as any, true);
     }
-
+  console.log(`Error connecting to WhatsApp: 5`, 'error');
     this.eventHandler();
-
+    console.log(`Error connecting to WhatsApp: 6`, 'error');
     this.client.ws.on('CB:call', (packet) => {
       console.log('CB:call', packet);
       const payload = { event: 'CB:call', packet: packet };
@@ -682,7 +682,7 @@ export class BaileysStartupService extends ChannelStartupService {
       const payload = { event: 'CB:ack,class:call', packet: packet };
       this.sendDataWebhook(Events.CALL, payload, true, ['websocket']);
     });
-
+    console.log(`Error connecting to WhatsApp: 7`, 'error');
     this.phoneNumber = number;
 
     return this.client;
