@@ -697,6 +697,7 @@ export class BaileysStartupService extends ChannelStartupService {
 
       return await this.createClient(number);
     } catch (error) {
+      console.log(`Error connecting to WhatsApp: ${error.message}`, 'error');
       this.logger.error(error);
       throw new InternalServerErrorException(error?.toString());
     }
