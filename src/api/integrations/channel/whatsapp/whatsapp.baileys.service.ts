@@ -568,7 +568,7 @@ export class BaileysStartupService extends ChannelStartupService {
     this.logger.info(`Group Ignore: ${this.localSettings.groupsIgnore}`);
 
     let options;
-
+    console.log(`Error connecting to WhatsApp:asdasd`, 'error');
     if (this.localProxy?.enabled) {
       this.logger.info('Proxy enabled: ' + this.localProxy?.host);
 
@@ -696,8 +696,7 @@ export class BaileysStartupService extends ChannelStartupService {
       this.loadProxy();
 
       return await this.createClient(number);
-    } catch (error) {
-      console.log(`Error connecting to WhatsApp: ${error.message}`, 'error');
+    } catch (error) {      
       this.logger.error(error);
       throw new InternalServerErrorException(error?.toString());
     }
